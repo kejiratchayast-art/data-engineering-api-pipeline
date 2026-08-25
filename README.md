@@ -6,27 +6,24 @@ This project demonstrates how to extract data from an API, transform and validat
 
 ## ETL Pipeline
 
-```text
 API
- ↓
+↓
 Extract
- ↓
+↓
 Raw JSON
- ↓
+↓
 Transform
- ↓
+↓
 Validation
- ↓
+↓
 Processed JSON
- ↓
+↓
 SQLite Database
- ↓
+↓
 Data Quality Check
-```
 
 ## Project Structure
 
-```text
 data-engineering-api-pipeline/
 │
 ├── data/
@@ -37,6 +34,7 @@ data-engineering-api-pipeline/
 ├── src/
 │   ├── api_client.py
 │   ├── config.py
+│   ├── extract.py
 │   ├── pipeline.py
 │   └── transform.py
 │
@@ -47,12 +45,12 @@ data-engineering-api-pipeline/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
-```
 
 ## Technologies
 
 - Python
 - REST API
+- Requests
 - JSON
 - SQLite
 - SQL
@@ -88,31 +86,65 @@ Check the database for:
 
 The pipeline successfully processed 100 records.
 
-```text
 Total records: 100
 Records with NULL values: 0
 Duplicate post IDs: 0
-```
+
+## Error Handling
+
+The API extraction process includes a retry mechanism.
+
+If an API request fails, the pipeline will retry the request up to 3 times before returning an error.
+
+API request attempt 1/3
+API request attempt 2/3
+API request attempt 3/3
+
+## Logging
+
+Pipeline execution is recorded in:
+
+pipeline.log
+
+The log records successful and failed pipeline steps.
 
 ## How to Run
 
-Activate the virtual environment:
+### 1. Activate the virtual environment
 
-```bash
-.venv\Scripts\activate
-```
+Windows PowerShell:
 
-Run the complete ETL pipeline:
+.venv\Scripts\Activate.ps1
 
-```bash
+### 2. Install dependencies
+
+pip install -r requirements.txt
+
+### 3. Run the complete ETL pipeline
+
 python src/pipeline.py
-```
 
-Expected output:
+## Expected Output
 
-```text
+STEP 1: Extract data from API
+API request successful
+Extracted 100 posts
+
+STEP 2: Transform data
+Validation passed: 100 records
+Transformed 100 records
+
+STEP 3: Load data into database
+Loaded 100 records into database
+
+STEP 4: Check data quality
+Total records: 100
+Records with NULL values: 0
+Duplicate post IDs: 0
+
+==================================================
 ETL PIPELINE COMPLETED SUCCESSFULLY!
-```
+==================================================
 
 ## Key Data Engineering Concepts
 
@@ -122,8 +154,24 @@ This project demonstrates:
 - API Data Extraction
 - Data Transformation
 - Data Validation
-- Data Quality
+- Data Quality Checks
 - Idempotent Data Loading
 - SQLite Database
 - Pipeline Automation
 - Configuration Management
+- Error Handling
+- Retry Mechanism
+- Logging
+
+## Project Result
+
+100 records extracted
+        ↓
+100 records transformed
+        ↓
+100 records validated
+        ↓
+100 records loaded
+        ↓
+0 NULL records
+0 duplicate IDs

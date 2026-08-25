@@ -1,6 +1,5 @@
 import json
 import os
-
 from config import RAW_FILE, PROCESSED_FILE
 
 
@@ -29,7 +28,6 @@ def validate_data(data):
     required_fields = ["user_id", "post_id", "title", "body"]
 
     for i, record in enumerate(data):
-
         for field in required_fields:
             if field not in record:
                 raise ValueError(
@@ -67,14 +65,16 @@ def save_processed_data(data, file_path):
 
 
 if __name__ == "__main__":
-
     data = load_raw_data(RAW_FILE)
 
     transformed_data = transform_data(data)
 
     validate_data(transformed_data)
 
-    save_processed_data(transformed_data, PROCESSED_FILE)
+    save_processed_data(
+        transformed_data,
+        PROCESSED_FILE
+    )
 
     print(f"Transformed {len(transformed_data)} records")
     print(f"Saved processed data to {PROCESSED_FILE}")
