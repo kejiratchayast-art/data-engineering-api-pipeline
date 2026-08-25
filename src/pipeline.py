@@ -2,6 +2,7 @@ import subprocess
 import sys
 import logging
 
+
 logging.basicConfig(
     filename="pipeline.log",
     level=logging.INFO,
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     )
 
     run_step(
-        "STEP 2: Transform data",
+        "STEP 2: Transform and validate data",
         ["src/transform.py"]
     )
 
