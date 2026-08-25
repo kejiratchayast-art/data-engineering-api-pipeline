@@ -1,9 +1,0 @@
-2026-08-25 20:27:48,902 - INFO - STEP 1: Extract data from API
-2026-08-25 20:27:49,553 - INFO - STEP 1: Extract data from API - SUCCESS
-2026-08-25 20:27:49,553 - INFO - STEP 2: Transform data
-2026-08-25 20:27:49,662 - INFO - STEP 2: Transform data - SUCCESS
-2026-08-25 20:27:49,662 - INFO - STEP 3: Load data into database
-2026-08-25 20:27:49,824 - INFO - STEP 3: Load data into database - SUCCESS
-2026-08-25 20:27:49,831 - INFO - STEP 4: Check data quality
-2026-08-25 20:27:49,906 - INFO - STEP 4: Check data quality - SUCCESS
-2026-08-25 20:27:49,906 - INFO - ETL PIPELINE COMPLETED SUCCESSFULLY!
