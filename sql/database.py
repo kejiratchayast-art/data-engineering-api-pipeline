@@ -1,7 +1,7 @@
 import json
-import sqlite3
+import psycopg2
 
-from src.config import PROCESSED_FILE, DATABASE_FILE
+from src.config import PROCESSED_FILE
 
 
 def load_processed_data(file_path):
@@ -22,6 +22,7 @@ def create_database(connection):
     """)
 
     connection.commit()
+    cursor.close()
 
 
 def insert_data(connection, data):
@@ -29,9 +30,14 @@ def insert_data(connection, data):
 
     for record in data:
         cursor.execute("""
-            INSERT OR REPLACE INTO posts
+            INSERT INTO posts
             (user_id, post_id, title, body)
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
+            ON CONFLICT (post_id)
+            DO UPDATE SET
+                user_id = EXCLUDED.user_id,
+                title = EXCLUDED.title,
+                body = EXCLUDED.body
         """, (
             record["user_id"],
             record["post_id"],
@@ -40,24 +46,33 @@ def insert_data(connection, data):
         ))
 
     connection.commit()
+    cursor.close()
+
+
+def get_connection():
+    return psycopg2.connect(
+        host="localhost",
+        port=5432,
+        database="etl_database",
+        user="etl_user",
+        password="etl_password"
+    )
 
 
 if __name__ == "__main__":
-
     data = load_processed_data(PROCESSED_FILE)
 
-    connection = sqlite3.connect(DATABASE_FILE)
+    connection = get_connection()
 
     create_database(connection)
-
     insert_data(connection, data)
 
     cursor = connection.cursor()
-
     cursor.execute("SELECT COUNT(*) FROM posts")
 
     count = cursor.fetchone()[0]
 
-    print(f"Loaded {count} records into database")
+    print(f"Loaded {count} records into PostgreSQL")
 
+    cursor.close()
     connection.close()
